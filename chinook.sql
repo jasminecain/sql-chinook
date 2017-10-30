@@ -5,10 +5,15 @@ SELECT FirstName, LastName, CustomerId, COUNTRY FROM CUSTOMER WHERE COUNTRY != '
 SELECT CustomerId, Country FROM CUSTOMER WHERE COUNTRY = 'Brazil'
 
 -- 3. brazil_customers_invoices.sql: Provide a query showing the Invoices of customers who are from Brazil. The resultant table should show the customer's full name, Invoice ID, Date of the invoice and billing country.
+SELECT CUSTOMER.FirstName, CUSTOMER.LastName, INVOICE.InvoiceId, INVOICE.InvoiceDate, INVOICE.BillingCountry FROM CUSTOMER
+JOIN INVOICE ON CUSTOMER.CustomerId = INVOICE.CustomerId
 
 -- 4. sales_agents.sql: Provide a query showing only the Employees who are Sales Agents.
+SELECT * FROM EMPLOYEE WHERE TITLE = 'Sales Support Agent'
 
 -- 5. unique_invoice_countries.sql: Provide a query showing a unique/distinct list of billing countries from the Invoice table.
+SELECT DISTINCT BillingCountry FROM INVOICE
+ORDER BY INVOICE.BillingCountry ASC
 
 -- 6. sales_agent_invoices.sql: Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
 
