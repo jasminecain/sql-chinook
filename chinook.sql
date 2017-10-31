@@ -16,22 +16,46 @@ SELECT DISTINCT BillingCountry FROM INVOICE
 ORDER BY INVOICE.BillingCountry ASC
 
 -- 6. sales_agent_invoices.sql: Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
+SELECT cust.SupportRepId, emp.FirstName, emp.LastName, inv.InvoiceId
+FROM CUSTOMER AS cust LEFT JOIN EMPLOYEE AS emp ON cust.SupportRepId = emp.EmployeeId
+LEFT JOIN INVOICE AS inv ON cust.CustomerId = inv.CustomerId;
 
 -- 7. invoice_totals.sql: Provide a query that shows the Invoice Total, Customer name, Country and Sale Agent name for all invoices and customers.
+SELECT cust.FirstName, cust.LastName, cust.Country, emp.FirstName, emp.LastName, inv.Total
+FROM CUSTOMER AS cust LEFT JOIN EMPLOYEE AS emp ON cust.SupportRepId = emp.EmployeeId
+LEFT JOIN INVOICE AS inv ON cust.CustomerId = inv.CustomerId;
 
 -- 8. total_invoices_{year}.sql: How many Invoices were there in 2009 and 2011?
+-- Total number of Invoices in 2009
+SELECT COUNT (*) FROM INVOICE WHERE InvoiceDate BETWEEN  '2009-01-01' AND '2009-12-31';
+-- Total number of Invoices in 2011
+SELECT COUNT (*) FROM INVOICE WHERE InvoiceDate BETWEEN  '2011-01-01' AND '2011-12-31'
 
 -- 9. total_sales_{year}.sql: What are the respective total sales for each of those years?
+-- Total Sales during 2009
+SELECT SUM (TOTAL) FROM INVOICE WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+-- Total Sales during 2011
+SELECT SUM (TOTAL) FROM INVOICE WHERE InvoiceDate BETWEEN '2011-01-01' AND '2011-12-31';
 
 -- 10. invoice_37_line_item_count.sql: Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for Invoice ID 37.
+SELECT COUNT(InvoiceId) FROM InvoiceLine WHERE InvoiceId = 37;
 
 -- 11. line_items_per_invoice.sql: Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for each Invoice. HINT: GROUP BY
+SELECT COUNT (InvoiceLineId) FROM INVOICELINE
+GROUP BY InvoiceId
 
 -- 12. line_item_track.sql: Provide a query that includes the purchased track name with each invoice line item.
+SELECT TRACK.Name, INVOICELINE.InvoiceLineId FROM TRACK, INVOICELINE
+WHERE TRACK.TrackId = INVOICELINE.TrackId
 
 -- 13. line_item_track_artist.sql: Provide a query that includes the purchased track name AND artist name with each invoice line item.
+SELECT TRACK.Name, TRACK.Composer, INVOICELINE.InvoiceLineId FROM TRACK, InvoiceLine
+WHERE TRACK.TrackId = INVOICELINE.TrackId
 
 -- 14. country_invoices.sql: Provide a query that shows the # of invoices per country. HINT: GROUP BY
+SELECT BillingCountry, COUNT(InvoiceId) FROM INVOICE
+GROUP BY BillingCountry
+
 
 -- 15. playlists_track_count.sql: Provide a query that shows the total number of tracks in each playlist. The Playlist name should be include on the resulant table.
 
